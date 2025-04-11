@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nearby Recommendations</title>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGLM_J5yX62bYgvQiHaDLRlyKRwbNe7RQ&libraries=places"></script>
+  <script type="module">
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+    const GEMINI_API_KEY = "AIzaSyAoObRWOz586pwfOvjXY1ZUx3hm9R6DURg";
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    let map, service, currentLocation;
+
+    // Updated function to handle API response format
+    async function getNearbyPlaces(location, interest) {
+      try {
+        const response = await fetch('http://localhost:9999/api/getNearestDataset', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            latitude: location.lat,
+            longitude: location.lng,
+            category: parseInt(interest) // Convert to integer as API expects
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data.results || []; // API returns { results: [...] }
+      } catch (error) {
+        showToast('Error fetching local recommendations', 'error');
+        return [];
+      }
+    }
+
+    // Toast notification system
+    function showToast(message, type = 'info') {
+      const container = document.querySelector('.toast-container') ||
+        (() => {
+          const cont = document.createElement('div');
+          cont.className = 'toast-container';
+          document.body.appendChild(cont);
+          return cont;
+        })();
+
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.addEventListener('animationend', () => toast.remove());
+      }, 2000);
+    }
+
+    // Add this function to handle location input methods
+    function setupLocationInputs() {
+      const locationContainer = document.createElement('div');
+      locationContainer.className = 'location-methods';
+      locationContainer.innerHTML = `
+      <div class="input-group">
+        <input 
+          type="text" 
+          id="locationInput" 
+          placeholder="Enter location manually"
+          class="location-input"
+        />
+      </div>
+      <!-- <div class="location-divider">OR</div> -->
+      <button type="button" class="btn secondary" id="currentLocationBtn">
+        📍 Use Current Location
+      </button>
+    `;
+
+      document.querySelector('#recommendForm').prepend(locationContainer);
+
+      // Setup autocomplete
+      const locationInput = document.getElementById('locationInput');
+      const autocomplete = new google.maps.places.Autocomplete(locationInput, {
+        types: ['(cities)'],
+        fields: ['geometry', 'formatted_address']
+      });
+
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+          currentLocation = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+          };
+          initializeMap();
+          showToast('Location updated!', 'success');
+        }
+      });
+
+      // Setup current location button
+      document.getElementById('currentLocationBtn').addEventListener('click', () => {
+        if (navigator.geolocation) {
+          showToast('Getting your location...', 'info');
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              currentLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              initializeMap();
+              // Reverse geocode to show address
+              const geocoder = new google.maps.Geocoder();
+              geocoder.geocode({ location: currentLocation }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                  locationInput.value = results[0].formatted_address;
+                }
+              });
+              showToast('Location updated!', 'success');
+            },
+            () => showToast('Could not get your location', 'error')
+          );
+        } else {
+          showToast('Geolocation is not supported by your browser', 'error');
+        }
+      });
+    }
+
+    // Updated display function to handle both API and Gemini results
+    async function displayPlace(place, isLocal = false) {
+      const position = {
+        lat: parseFloat(place.latitude || place.geometry?.location.lat() || 0),
+        lng: parseFloat(place.longitude || place.geometry?.location.lng() || 0)
+      };
+
+      // Create marker with different colors
+      const marker = new google.maps.Marker({
+        map,
+        position,
+        animation: google.maps.Animation.DROP,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 10,
+          fillColor: isLocal ? '#34a853' : '#4285F4', // Green for local, Blue for AI
+          fillOpacity: 0.9,
+          strokeColor: '#FFFFFF',
+          strokeWeight: 2
+        }
+      });
+
+      // Updated info window with color-coded header
+      const infoWindow = new google.maps.InfoWindow({
+        content: `
+            <div class="info-window">
+                <div class="info-header ${isLocal ? 'local' : 'ai'}">
+                    ${isLocal ? '🏠 Local Dataset' : '🤖 AI Recommendation'}
+                </div>
+                <h3>${place.place || place.name}</h3>
+                <p>${place.description || place.formatted_address || ''}</p>
+                ${place.region ? `<p>Region: ${place.region}</p>` : ''}
+            </div>
+        `
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+      });
+
+
+      // Fetch place photos if it's an AI recommendation
+      let photos = [];
+      if (!isLocal) {
+        const request = {
+          placeId: place.place_id,
+          fields: ['photos', 'rating', 'user_ratings_total']
+        };
+
+        try {
+          const placeDetails = await new Promise((resolve, reject) => {
+            service.getDetails(request, (place, status) => {
+              if (status === 'OK') resolve(place);
+              else reject(status);
+            });
+          });
+
+          photos = placeDetails.photos || [];
+        } catch (error) {
+          console.error('Error fetching place photos:', error);
+        }
+      }
+
+      // Create place card with photos
+      const placeCard = document.createElement("div");
+      placeCard.className = `place-card ${isLocal ? 'local' : 'ai'}`;
+      placeCard.innerHTML = `
+      ${photos.length > 0 ? `
+        <div class="photo-gallery">
+          ${photos.slice(0, 3).map(photo => `
+            <img 
+              src="${photo.getUrl({ maxWidth: 400 })}" 
+              alt="Photo of ${place.name || place.place}"
+              class="place-photo"
+            />
+          `).join('')}
+        </div>
+      ` : ''}
+      <div class="place-info">
+        <div class="place-name">${place.place || place.name}</div>
+        <div class="place-address">${place.description || place.formatted_address || ''}</div>
+        ${place.region ? `<div class="place-region">📍 ${place.region}</div>` : ''}
+        <div class="place-badge ${isLocal ? 'local' : 'ai'}">
+          ${isLocal ? '🏠 Local Dataset' : '🤖 AI Recommendation'}
+        </div>
+      </div>
+    `;
+
+      // Add click listener to card to pan to location
+      placeCard.addEventListener('click', () => {
+        map.panTo(position);
+        map.setZoom(15);
+        infoWindow.open(map, marker);
+      });
+
+      document.getElementById("results").appendChild(placeCard);
+    }
+
+    window.initMap = function () {
+      // Add location selection button
+      const locationBtn = document.createElement('button');
+      locationBtn.className = 'btn secondary';
+      locationBtn.innerHTML = '📍 Choose Location';
+      locationBtn.onclick = selectLocation;
+      document.querySelector('#recommendForm').appendChild(locationBtn);
+
+      // Setup autocomplete for location input
+      const locationInput = document.getElementById('locationInput');
+      const autocomplete = new google.maps.places.Autocomplete(locationInput, {
+        types: ['(cities)'],
+        fields: ['geometry', 'formatted_address']
+      });
+
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+          currentLocation = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+          };
+          initializeMap();
+          showToast('Location updated!', 'success');
+        }
+      });
+
+      // Setup current location button
+      document.getElementById('currentLocationBtn').addEventListener('click', () => {
+        if (navigator.geolocation) {
+          showToast('Getting your location...', 'info');
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              currentLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              initializeMap();
+              // Reverse geocode to show address
+              const geocoder = new google.maps.Geocoder();
+              geocoder.geocode({ location: currentLocation }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                  locationInput.value = results[0].formatted_address;
+                }
+              });
+              showToast('Location updated!', 'success');
+            },
+            () => showToast('Could not get your location', 'error')
+          );
+        } else {
+          showToast('Geolocation is not supported by your browser', 'error');
+        }
+      });
+
+      // Initialize map with default location
+      currentLocation = { lat: 13.1631, lng: 78.3935 }; // Default location
+      initializeMap();
+    };
+
+    function initializeMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: currentLocation,
+        zoom: 14
+      });
+
+      new google.maps.Marker({
+        position: currentLocation,
+        map: map,
+        title: "You are here",
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+      });
+
+      // Add legend to map
+      const legend = document.createElement('div');
+      legend.className = 'map-legend';
+      legend.innerHTML = `
+        <div class="legend-item">
+            <div class="legend-dot local"></div>
+            <span>Local Dataset Places</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot ai"></div>
+            <span>AI Recommended Places</span>
+        </div>
+    `;
+      map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+    }
+
+    function selectLocation() {
+      showToast('Click on the map to select location', 'info');
+      map.addListener('click', function (e) {
+        currentLocation = {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng()
+        };
+        initializeMap();
+        showToast('Location updated!', 'success');
+      });
+    }
+
+    // Updated form submission handler
+    document.addEventListener("DOMContentLoaded", () => {
+      setupLocationInputs();
+
+      // Replace interest input with select
+      const interestSelect = document.createElement('select');
+      interestSelect.id = 'category';
+      interestSelect.className = 'form-select';
+      interestSelect.required = true;
+      interestSelect.innerHTML = `
+      <option value="" disabled selected>Select your interest</option>
+      <option value="1">Food</option>
+      <option value="2">Stay/Hotels</option>
+      <option value="3">Temples</option>
+    `;
+
+      const inputGroup = document.querySelector('.input-group');
+      inputGroup.innerHTML = '';
+      inputGroup.appendChild(interestSelect);
+
+      const form = document.getElementById("recommendForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const category = document.getElementById("category").value;
+
+        if (!category) {
+          showToast('Please select a category', 'warning');
+          return;
+        }
+
+        if (!currentLocation) {
+          showToast('Please select a location first', 'warning');
+          return;
+        }
+
+        document.getElementById("results").innerHTML = '';
+        showToast('Fetching recommendations...', 'info');
+
+        // Get local API recommendations first
+        const localPlaces = await getNearbyPlaces(currentLocation, category);
+        if (localPlaces.length > 0) {
+          showToast(`Found ${localPlaces.length} local recommendations`, 'success');
+          localPlaces.forEach(place => displayPlace(place, true));
+        }
+
+        // Then get Gemini recommendations
+        try {
+          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+          const categoryText = interestSelect.options[interestSelect.selectedIndex].text;
+          const prompt = `
+          I'm in ${currentLocation.lat},${currentLocation.lng}. 
+          Looking for ${categoryText} places.
+          Suggest 5 specific places (not generic types) within 5km.
+          Return just the names, one per line.
+        `;
+
+          const result = await model.generateContent(prompt);
+          const response = await result.response;
+          const text = response.text();
+          const places = text.split('\n').filter(line => line.trim());
+
+          // Process each Gemini suggestion
+          for (const place of places) {
+            const request = {
+              query: place,
+              fields: ["name", "geometry", "formatted_address", "place_id"],
+              locationBias: {
+                center: currentLocation,
+                radius: 5000 // 5km radius
+              }
+            };
+
+            service = new google.maps.places.PlacesService(map);
+            service.findPlaceFromQuery(request, (results, status) => {
+              if (status === google.maps.places.PlacesServiceStatus.OK && results[0]) {
+                displayPlace(results[0], false);
+              }
+            });
+          }
+        } catch (error) {
+          console.error('Error getting AI recommendations:', error);
+          showToast('Error getting AI recommendations', 'error');
+        }
+      });
+    });
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+    }
+
+    #controls {
+      width: 30.8%;
+      height: 100vh;
+      padding: 24px;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+
+    #map {
+      flex: 1;
+      height: 100vh;
+    }
+
+    h3 {
+      color: #1a73e8;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    #pr {
+      margin-bottom: 20px;
+      font-size: 0.9em;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+    }
+
+    .btn {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin: 8px 0;
+    }
+
+    .btn:hover {
+      background: #1557b0;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: #1a73e8;
+      border: 1px solid #1a73e8;
+    }
+
+    .btn.danger {
+      background: #dc3545;
+    }
+
+    .waypoint {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .place-card {
+      background: white;
+      margin: 16px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .place-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .place-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .place-info {
+      padding: 16px;
+    }
+
+    .place-name {
+      font-weight: 500;
+      color: #202124;
+      margin-bottom: 4px;
+    }
+
+    .place-address {
+      font-size: 13px;
+      color: #5f6368;
+    }
+
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+
+    .loading.active {
+      display: block;
+    }
+
+    .interests-container {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .interest-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .interest-item:hover {
+      background: #e8f0fe;
+    }
+
+    .place-card {
+      position: relative;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .place-details {
+      padding: 16px;
+    }
+
+    .suggested-time {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .photo-gallery {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      background: #f8f9fa;
+    }
+
+    .place-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      object-fit: cover;
+      scroll-snap-align: start;
+      transition: transform 0.2s;
+    }
+
+    .place-photo:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    .plan-container {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .plan-list {
+      margin-top: 10px;
+    }
+
+    .plan-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .btn.small {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      padding: 12px 24px;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-out 1.7s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 300px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .toast.success {
+      background: #34a853;
+    }
+
+    .toast.error {
+      background: #ea4335;
+    }
+
+    .toast.info {
+      background: #4285f4;
+    }
+
+    .toast.warning {
+      background: #fbbc05;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    }
+
+    .place-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .place-badge.local {
+      background: #34a853;
+      color: white;
+    }
+
+    .place-badge.ai {
+      background: #4285f4;
+      color: white;
+    }
+
+    .place-region {
+      font-size: 13px;
+      color: #5f6368;
+      margin-top: 4px;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-top: 8px;
+      background: white;
+    }
+
+    .info-window {
+      padding: 8px;
+      max-width: 300px;
+    }
+
+    .info-window h3 {
+      margin-bottom: 8px;
+      color: #1a73e8;
+    }
+
+    .local-tag {
+      color: #34a853;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    .location-methods {
+      margin-bottom: 20px;
+    }
+
+    .location-divider {
+      text-align: center;
+      margin: 12px 0;
+      color: #5f6368;
+      font-size: 12px;
+      position: relative;
+    }
+
+    .location-divider::before,
+    .location-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 45%;
+      height: 1px;
+      background: #dadce0;
+    }
+
+    .location-divider::before {
+      left: 0;
+    }
+
+    .location-divider::after {
+      right: 0;
+    }
+
+    .location-input {
+      padding-right: 40px;
+      background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="%235F6368"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 20px;
+    }
+
+    .place-card.local {
+      border-left: 4px solid #34a853;
+      background: linear-gradient(to right, #f1f8e9 0%, #ffffff 5%);
+    }
+
+    .place-card.ai {
+      border-left: 4px solid #4285F4;
+      background: linear-gradient(to right, #e8f0fe 0%, #ffffff 5%);
+    }
+
+    .info-header {
+      padding: 8px;
+      margin: -8px -8px 8px -8px;
+      border-radius: 8px 8px 0 0;
+      font-weight: 500;
+      color: white;
+    }
+
+    .info-header.local {
+      background-color: #34a853;
+    }
+
+    .info-header.ai {
+      background-color: #4285F4;
+    }
+
+    .place-badge.local {
+      background-color: #34a853;
+    }
+
+    .place-badge.ai {
+      background-color: #4285F4;
+    }
+
+    /* Update legend styles */
+    .map-legend {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #3c4043;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    .legend-dot.local {
+      background-color: #34a853;
+    }
+
+    .legend-dot.ai {
+      background-color: #4285F4;
+    }
+  </style>
+</head>
+
+<body onload="initMap()">
+  <div id="controls">
+    <h3>TourSages Localite</h3>
+    <p id="pr">Get suggestions based on your interests and location.</p>
+    <form id="recommendForm">
+      <div class="location-methods">
+        <div class="input-group">
+          <input type="text" id="locationInput" placeholder="Enter location manually" class="location-input" />
+        </div>
+      </div>
+      <div class="input-group">
+        <!-- Category select will be inserted here by JavaScript -->
+      </div>
+      <button class="btn" type="submit">Get Recommendations</button>
+    </form>
+    <div id="results"></div>
+  </div>
+  <div id="map"></div>
+</body>
+
+</html>

@@ -12,7 +12,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 async function getNearbyPlaces(lat, lng, keyword = "cafe") {
   const mapsUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json`;
-  
+
   const { data } = await axios.get(mapsUrl, {
     params: {
       location: `${lat},${lng}`,
@@ -22,7 +22,7 @@ async function getNearbyPlaces(lat, lng, keyword = "cafe") {
     },
   });
 
-  return data.results.slice(0, 5).map(place => ({
+  return data.results.slice(0, 5).map((place) => ({
     name: place.name,
     rating: place.rating,
     address: place.vicinity,
@@ -62,7 +62,12 @@ router.post("/get-coordinates", async (req, res) => {
 
 async function askGeminiAboutPlaces(query, places) {
   const context = places
-    .map((place, i) => `${i + 1}. ${place.name}\nAddress: ${place.address}\nRating: ${place.rating}\nTypes: ${place.types}`)
+    .map(
+      (place, i) =>
+        `${i + 1}. ${place.name}\nAddress: ${place.address}\nRating: ${
+          place.rating
+        }\nTypes: ${place.types}`
+    )
     .join("\n\n");
 
   const prompt = `
@@ -116,7 +121,7 @@ function haversineDistance(coord1, coord2) {
 
 // Distance from a point to a line segment (route), using projection math
 function distanceFromRoute(point, start, end) {
-  const toRadians = x => (x * Math.PI) / 180;
+  const toRadians = (x) => (x * Math.PI) / 180;
 
   const lat1 = toRadians(start.lat);
   const lng1 = toRadians(start.lng);
@@ -148,7 +153,7 @@ router.post("/route-places", (req, res) => {
     return res.status(400).json({ error: "Source and destination required." });
   }
 
-  const placesWithinRoute = placesData.filter(place => {
+  const placesWithinRoute = placesData.filter((place) => {
     const lat = parseFloat(place.latitude);
     const lng = parseFloat(place.longitude);
 
@@ -162,6 +167,48 @@ router.post("/route-places", (req, res) => {
   });
 
   res.json({ inRoutePlaces: placesWithinRoute });
+});
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+router.post("/getNearestDataset", async (req, res) => {
+  try {
+    const { latitude, longitude, category } = req.body;
+    if (!latitude || !longitude) {
+      return res.status(400).json({ error: "Missing coordinates" });
+    }
+
+    const filePath = path.join(__dirname, "../places.json");
+    const rawData = fs.readFileSync(filePath, "utf-8");
+    const places = JSON.parse(rawData);
+
+    const filtered = places.filter((place) => {
+      const dist = getDistanceFromLatLonInKm(
+        parseFloat(latitude),
+        parseFloat(longitude),
+        parseFloat(place.latitude),
+        parseFloat(place.longitude)
+      );
+      return dist <= 5 && (!category || place.category == category);
+    });
+
+    res.json({ results: filtered });
+  } catch (err) {
+    console.error("Error in /getNearestDataset:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 module.exports = router;
