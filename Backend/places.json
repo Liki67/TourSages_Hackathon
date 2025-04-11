@@ -1,0 +1,618 @@
+[
+  {
+    "place": "satish chats",
+    "latitude": "13.1631",
+    "longitude": 78.3935,
+    "description": "It’s a famous place in Mulbagal (Kolar district, Karnataka) known for its delicious Masala Dosas and South Indian tiffin items. Perfect if you’re passing through on the way to Tirupati or Kolar!",
+    "category": 1,
+    "region": "Mulbagal"
+  },
+  {
+    "place": "Prasad Hotel",
+    "latitude": "13.1634",
+    "longitude": 78.3942,
+    "description": "Prasad Hotel is super popular for its Mulbagal Dosa — a unique style dosa that’s crispy outside and soft inside, stuffed with a special masala. \nMany travelers stop here when heading towards Tirupati, Bengaluru, or Andhra side.",
+    "category": 1,
+    "region": "Mulbagal"
+  },
+  {
+    "place": "Anjaneya Swamy Temple,",
+    "latitude": "13.1633",
+    "longitude": 78.3938,
+    "description": "This Anjaneya (Hanuman) temple is very famous — locals believe it was installed by Arjuna from the Mahabharata era. 🙏🏼\nIt’s right near Satish Chats and Prasad Hotel — so many people visit the temple after grabbing a dosa!",
+    "category": 3,
+    "region": "Mulbagal"
+  },
+  {
+    "place": "Koladevi Mariamma",
+    "latitude": "13.1445",
+    "longitude": 78.409,
+    "description": "During the Jathra Festival (usually around March/April), the temple surroundings turn into a huge fair — with food stalls, traditional games, rides, and folk performances like Dollu Kunitha (drum dances).",
+    "category": 3,
+    "region": "Mulbagal"
+  },
+  {
+    "place": "Kurudumale Ganesha Temple",
+    "latitude": " 13.1493",
+    "longitude": 78.3686,
+    "description": "“The Ganesha of Kurudumale blesses all travelers — here, wishes made with faith never fail.”",
+    "category": 3,
+    "region": "Mulbagal"
+  },
+  {
+    "place": "Shyamal sweets",
+    "latitude": "13.1632",
+    "longitude": 78.3941,
+    "description": "\tTraditional South Indian sweets like Mysore Pak, Kunda, Jalebi, and Kajjaya.",
+    "category": 1,
+    "region": "Mulbagal"
+  },
+  {
+    "place": "Shankar Bhavan Sweet Shop",
+    "latitude": "13.3634",
+    "longitude": 78.5712,
+    "description": "They use local ghee and traditional recipes — taste feels very “homemade” but rich.",
+    "category": 1,
+    "region": "pungunur"
+  },
+  {
+    "place": "Malgudi Tiffin Center",
+    "latitude": "13.0698",
+    "longitude": 77.7872,
+    "description": "It’s like a “hidden breakfast temple” for Hoskote locals. Pure, traditional South Indian style.",
+    "category": 1,
+    "region": "kolar"
+  },
+  {
+    "place": "Coorg Coffee Stop",
+    "latitude": "12.4015",
+    "longitude": 75.7382,
+    "description": "Tiny roadside café near Madikeri where locals stop for pure Coorg coffee and fresh homemade Kodava snacks",
+    "category": 1,
+    "region": "Coorg"
+  },
+  {
+    "place": "Chiklihole Reservoir Homestay",
+    "latitude": "12.4365",
+    "longitude": 75.7848,
+    "description": "Hidden riverside homestay popular among locals for nature stays away from tourists",
+    "category": 2,
+    "region": "Coorg"
+  },
+  {
+    "place": "Padi Igguthappa Temple",
+    "latitude": "12.3097",
+    "longitude": 75.738,
+    "description": "Ancient Kodava temple dedicated to the main deity of Coorg locals",
+    "category": 3,
+    "region": "Coorg"
+  },
+  {
+    "place": "Hotel RRR Mysore",
+    "latitude": "12.3086",
+    "longitude": 76.6527,
+    "description": "Legendary local restaurant known for authentic Mysore-style meals served on banana leaves",
+    "category": 1,
+    "region": "Mysore"
+  },
+  {
+    "place": "Parklane Hotel",
+    "latitude": "12.3089",
+    "longitude": 76.6541,
+    "description": "Affordable heritage-style hotel often booked by locals for short stays",
+    "category": 2,
+    "region": "Mysore"
+  },
+  {
+    "place": "Chandramouleshwara Temple",
+    "latitude": "12.3252",
+    "longitude": 76.6234,
+    "description": "12th-century hidden gem temple visited mostly by Mysore locals",
+    "category": 3,
+    "region": "Mysore"
+  },
+  {
+    "place": "Mitra Samaj Udupi",
+    "latitude": "13.3409",
+    "longitude": 74.7464,
+    "description": "Famous traditional Udupi breakfast spot loved by locals especially for Masala Dosas",
+    "category": 1,
+    "region": "Udupi"
+  },
+  {
+    "place": "Sai Vishram Village",
+    "latitude": "13.5051",
+    "longitude": 74.7086,
+    "description": "Quiet beachside eco-stay known among locals for peaceful family retreats",
+    "category": 2,
+    "region": "Udupi"
+  },
+  {
+    "place": "Anantheshwara Temple",
+    "latitude": "13.3427",
+    "longitude": 74.7467,
+    "description": "Ancient temple older than Udupi Krishna Temple itself revered mostly by locals",
+    "category": 3,
+    "region": "Udupi"
+  },
+  {
+    "place": "Sri Lakshmi Narayana Bhavan",
+    "latitude": "13.6325",
+    "longitude": 79.4196,
+    "description": "Popular local restaurant famous for Andhra meals and tiffins among Tirupati locals",
+    "category": 1,
+    "region": "Tirupati"
+  },
+  {
+    "place": "Bhimas Residency Hotels",
+    "latitude": "13.6287",
+    "longitude": 79.4193,
+    "description": "Top-rated hotel popular with locals for family stays and functions",
+    "category": 2,
+    "region": "Tirupati"
+  },
+  {
+    "place": "Kapila Theertham Temple",
+    "latitude": "13.6218",
+    "longitude": 79.4094,
+    "description": "Famous Shiva temple located at the foot of Tirumala hills, visited mostly by local devotees",
+    "category": 3,
+    "region": "Tirupati"
+  },
+  {
+    "place": "Hotel Bliss",
+    "latitude": "13.6305",
+    "longitude": 79.4147,
+    "description": "A favorite hotel among Tirupati locals for functions and short leisure stays",
+    "category": 2,
+    "region": "Tirupati"
+  },
+  {
+    "place": "Bheema's Cafe",
+    "latitude": "13.631",
+    "longitude": 79.4198,
+    "description": "Local's choice for authentic South Indian tiffins in Tirupati",
+    "category": 1,
+    "region": "Tirupati"
+  },
+  {
+    "place": "Chandragiri Fort",
+    "latitude": "13.5742",
+    "longitude": 79.3545,
+    "description": "Historic fort visited by locals, offering a glimpse into Vijayanagara dynasty",
+    "category": 3,
+    "region": "Chittoor"
+  },
+  {
+    "place": "Punganur Shankar Bhavan Sweet Shop",
+    "latitude": "13.3646",
+    "longitude": 78.5819,
+    "description": "Iconic sweet shop in Punganur known for authentic sweets and snacks",
+    "category": 1,
+    "region": "Punganur"
+  },
+  {
+    "place": "Koladevi Anjaneya Swamy Temple",
+    "latitude": "13.4295",
+    "longitude": 78.5797,
+    "description": "Local temple in Koladevi village famous for Hanuman devotees",
+    "category": 3,
+    "region": "Punganur"
+  },
+  {
+    "place": "Giri Manja's",
+    "latitude": "12.8702",
+    "longitude": 74.8423,
+    "description": "Famous seafood restaurant in Mangalore known only among true locals",
+    "category": 1,
+    "region": "Mangalore"
+  },
+  {
+    "place": "Hotel Ayodhya",
+    "latitude": "12.8848",
+    "longitude": 74.8365,
+    "description": "Old school restaurant in Mangalore serving authentic South Indian meals",
+    "category": 1,
+    "region": "Mangalore"
+  },
+  {
+    "place": "New Punjab Bhavan",
+    "latitude": "15.3647",
+    "longitude": 75.1239,
+    "description": "Hubli local favorite Punjabi restaurant with delicious thalis",
+    "category": 1,
+    "region": "Hubli"
+  },
+  {
+    "place": "Basaveshwara Khanavali",
+    "latitude": "15.3639",
+    "longitude": 75.1231,
+    "description": "Home-style vegetarian meals loved by Hubli locals",
+    "category": 1,
+    "region": "Hubli"
+  },
+  {
+    "place": "Kamat Upachar",
+    "latitude": "13.3409",
+    "longitude": 77.1,
+    "description": "Famous highway side food stop near Tumkur",
+    "category": 1,
+    "region": "Tumkur"
+  },
+  {
+    "place": "Hoysala Village Resort",
+    "latitude": "13.0116",
+    "longitude": 76.0891,
+    "description": "Beautiful resort styled like old Hoysala architecture in Hassan",
+    "category": 2,
+    "region": "Hassan"
+  },
+  {
+    "place": "Kikkeri Brahmeshvara Temple",
+    "latitude": "12.7017",
+    "longitude": 76.5652,
+    "description": "Small ancient temple rarely visited by tourists in Kikkeri",
+    "category": 3,
+    "region": "Hassan"
+  },
+  {
+    "place": "Mavinakere Sri Lakshmi Venkataramanaswamy Temple",
+    "latitude": "12.8528",
+    "longitude": 76.2447,
+    "description": "Hill temple worshiped mostly by Hassan locals",
+    "category": 3,
+    "region": "Hassan"
+  },
+  {
+    "place": "Idli Mane",
+    "latitude": "13.3404",
+    "longitude": 77.1002,
+    "description": "Idli and Dosa heaven in Tumkur among locals",
+    "category": 1,
+    "region": "Tumkur"
+  },
+  {
+    "place": "Fish Land",
+    "latitude": "12.8707",
+    "longitude": 74.8419,
+    "description": "Seafood favorite spot for Mangaloreans",
+    "category": 1,
+    "region": "Mangalore"
+  },
+  {
+    "place": "Shree Guru Residency",
+    "latitude": "15.3617",
+    "longitude": 75.1245,
+    "description": "Budget hotel choice for Hubli travelers",
+    "category": 2,
+    "region": "Hubli"
+  },
+  {
+    "place": "Kudle View Resort",
+    "latitude": "14.545",
+    "longitude": 74.3142,
+    "description": "Small peaceful resort by the Kudle Beach, hidden gem",
+    "category": 2,
+    "region": "Gokarna"
+  },
+  {
+    "place": "Sathodi Falls",
+    "latitude": "14.9995",
+    "longitude": 74.6928,
+    "description": "Beautiful waterfalls not crowded with tourists near Honnavara",
+    "category": 3,
+    "region": "Honnavara"
+  },
+  {
+    "place": "Gokarna Fish Market",
+    "latitude": "14.5479",
+    "longitude": 74.3161,
+    "description": "Fresh fish market popular among locals in Gokarna",
+    "category": 1,
+    "region": "Gokarna"
+  },
+  {
+    "place": "Siddaganga Mutt Dining Hall",
+    "latitude": "13.341",
+    "longitude": 77.1011,
+    "description": "Traditional free meal served at Siddaganga Mutt",
+    "category": 1,
+    "region": "Tumkur"
+  },
+  {
+    "place": "Ramnagara Hilltop View",
+    "latitude": "12.7179",
+    "longitude": 77.292,
+    "description": "Unexplored hill with great sunrise views near Ramnagara",
+    "category": 3,
+    "region": "Ramnagara"
+  },
+  {
+    "place": "Hotel Sanman",
+    "latitude": "15.3615",
+    "longitude": 75.1237,
+    "description": "Local favorite North Karnataka meals spot",
+    "category": 1,
+    "region": "Hubli"
+  },
+  {
+    "place": "Kundadri Hills",
+    "latitude": "13.6089",
+    "longitude": 74.8957,
+    "description": "Beautiful serene hills known among local trekkers",
+    "category": 3,
+    "region": "Honnavara"
+  },
+  {
+    "place": "Sri Krishna Bhavan",
+    "latitude": "12.7409",
+    "longitude": 77.8284,
+    "description": "Famous tiffin center loved by Hosur locals",
+    "category": 1,
+    "region": "Hosur"
+  },
+  {
+    "place": "Annapoorna Gowrishankar",
+    "latitude": "11.3445",
+    "longitude": 77.7274,
+    "description": "Best dosa and meals spot popular with Erode locals",
+    "category": 1,
+    "region": "Erode"
+  },
+  {
+    "place": "Hotel Arunachala",
+    "latitude": "12.2264",
+    "longitude": 79.0662,
+    "description": "Hotel right near the Arunachaleswarar Temple, not touristy",
+    "category": 2,
+    "region": "Tiruvannamalai"
+  },
+  {
+    "place": "Sri Lakshmi Tiffin Center",
+    "latitude": "12.7405",
+    "longitude": 77.829,
+    "description": "Hidden breakfast spot in Hosur",
+    "category": 1,
+    "region": "Hosur"
+  },
+  {
+    "place": "Nageswara Temple",
+    "latitude": "11.3362",
+    "longitude": 77.719,
+    "description": "Small, old temple locally revered in Erode",
+    "category": 3,
+    "region": "Erode"
+  },
+  {
+    "place": "Vellore Fort Local Eateries",
+    "latitude": "12.9165",
+    "longitude": 79.1315,
+    "description": "Small eateries inside Vellore Fort known only to regular visitors",
+    "category": 1,
+    "region": "Vellore"
+  },
+  {
+    "place": "Chandira Choodeswarar Temple",
+    "latitude": "12.7282",
+    "longitude": 77.8318,
+    "description": "Temple on a hilltop near Hosur mostly visited by locals",
+    "category": 3,
+    "region": "Hosur"
+  },
+  {
+    "place": "Government Museum Vellore",
+    "latitude": "12.9152",
+    "longitude": 79.1305,
+    "description": "Small but interesting museum rarely explored",
+    "category": 3,
+    "region": "Vellore"
+  },
+  {
+    "place": "The Fort View Residency",
+    "latitude": "12.9168",
+    "longitude": 79.132,
+    "description": "Budget hotel facing Vellore Fort",
+    "category": 2,
+    "region": "Vellore"
+  },
+  {
+    "place": "Krishnagiri Dam Park",
+    "latitude": "12.5315",
+    "longitude": 78.2171,
+    "description": "Quiet park near Krishnagiri dam for picnics",
+    "category": 3,
+    "region": "Krishnagiri"
+  },
+  {
+    "place": "Rayakottai Fort",
+    "latitude": "12.5365",
+    "longitude": 78.0078,
+    "description": "Historic fort popular for small treks among locals",
+    "category": 3,
+    "region": "Krishnagiri"
+  },
+  {
+    "place": "Mallachandram Anjaneya Temple",
+    "latitude": "12.5297",
+    "longitude": 78.2014,
+    "description": "Small hill temple near Krishnagiri",
+    "category": 3,
+    "region": "Krishnagiri"
+  },
+  {
+    "place": "Hotel Sri Saravana Bhavan",
+    "latitude": "12.1358",
+    "longitude": 78.1614,
+    "description": "Simple food spot for Dharmapuri locals",
+    "category": 1,
+    "region": "Dharmapuri"
+  },
+  {
+    "place": "Theerthamalai Temple",
+    "latitude": "12.0931",
+    "longitude": 78.2695,
+    "description": "Sacred temple in hills known mostly to locals",
+    "category": 3,
+    "region": "Dharmapuri"
+  },
+  {
+    "place": "Gingee Fort Small Trails",
+    "latitude": "12.255",
+    "longitude": 79.4186,
+    "description": "Hidden walking trails around Gingee fort",
+    "category": 3,
+    "region": "Tiruvannamalai"
+  },
+  {
+    "place": "Masjid E Anwari",
+    "latitude": "12.9191",
+    "longitude": 79.1373,
+    "description": "Old mosque inside Vellore town",
+    "category": 3,
+    "region": "Vellore"
+  },
+  {
+    "place": "Pachamalai Hills Viewpoints",
+    "latitude": "11.6107",
+    "longitude": 78.5945,
+    "description": "Lush green hilltop viewpoints around Dharmapuri",
+    "category": 3,
+    "region": "Dharmapuri"
+  },
+  {
+    "place": "Nandi Upachar",
+    "latitude": "13.268",
+    "longitude": 77.7132,
+    "description": "Local restaurant famous for authentic breakfast near Nandi Hills",
+    "category": 1,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Rangastala Temple",
+    "latitude": "13.3362",
+    "longitude": 77.6492,
+    "description": "Ancient temple near Chikkaballapur not crowded by tourists",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Muddenahalli Museum",
+    "latitude": "13.3732",
+    "longitude": 77.7306,
+    "description": "Memorial of Sir M Visvesvaraya, peaceful and educational",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Varlakonda Fort",
+    "latitude": "13.4892",
+    "longitude": 77.8508,
+    "description": "Small fort ruins known mostly to trekkers and locals",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Bhoga Nandeeshwara Temple Local Area",
+    "latitude": "13.386",
+    "longitude": 77.6826,
+    "description": "Hidden shrines around the main Bhoga Nandeeshwara Temple",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Sri Lakshmi Tiffins Doddaballapura",
+    "latitude": "13.2942",
+    "longitude": 77.5245,
+    "description": "Small famous tiffin spot for Doddaballapura locals",
+    "category": 1,
+    "region": "Doddaballapura"
+  },
+  {
+    "place": "Devanahalli Fort Inside Small Temple",
+    "latitude": "13.2476",
+    "longitude": 77.7175,
+    "description": "Inside Devanahalli Fort - small temple known to nearby residents",
+    "category": 3,
+    "region": "Devanahalli"
+  },
+  {
+    "place": "Hindupur Amba Bhavani Temple",
+    "latitude": "13.8298",
+    "longitude": 77.4862,
+    "description": "Famous Hindu temple for Hindupur locals, not touristy",
+    "category": 3,
+    "region": "Hindupur"
+  },
+  {
+    "place": "Sri Ranganathaswamy Temple (Hidden Corner)",
+    "latitude": "13.3896",
+    "longitude": 77.6697,
+    "description": "Quiet old temple in Chikkaballapur district",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Avalabetta Trek Starting Point",
+    "latitude": "13.6418",
+    "longitude": 77.6362,
+    "description": "Less-known starting point for Avalabetta hill trek",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Hotel S.L.V. Deluxe Hindupur",
+    "latitude": "13.8296",
+    "longitude": 77.4914,
+    "description": "Simple hotel preferred by Hindupur locals",
+    "category": 2,
+    "region": "Hindupur"
+  },
+  {
+    "place": "Bhairasagara Lake",
+    "latitude": "13.453",
+    "longitude": 77.858,
+    "description": "Scenic local lake near Chikkaballapur",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Kalavara Durga Fort (Skandagiri less explored route)",
+    "latitude": "13.3938",
+    "longitude": 77.6866,
+    "description": "Alternate trekking trail to Skandagiri used by locals",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Chikkajala Fort Remains",
+    "latitude": "13.1589",
+    "longitude": 77.6415,
+    "description": "Ruined fort remains near Bangalore airport hardly known",
+    "category": 3,
+    "region": "Bangalore North"
+  },
+  {
+    "place": "Gaureeshwara Temple Gauribidanur",
+    "latitude": "13.612",
+    "longitude": 77.5193,
+    "description": "Historical Shiva temple loved by Gauribidanur residents",
+    "category": 3,
+    "region": "Gauribidanur"
+  },
+  {
+    "place": "Sir M Visvesvaraya Memorial Park",
+    "latitude": "13.3892",
+    "longitude": 77.7295,
+    "description": "Park and memorial dedicated to Sir M Visvesvaraya, peaceful spot",
+    "category": 3,
+    "region": "Chikkaballapur"
+  },
+  {
+    "place": "Venugopalaswamy Temple Yelahanka",
+    "latitude": "13.1102",
+    "longitude": 77.5925,
+    "description": "Ancient temple inside Yelahanka town, lesser known",
+    "category": 3,
+    "region": "Yelahanka"
+  }
+]
