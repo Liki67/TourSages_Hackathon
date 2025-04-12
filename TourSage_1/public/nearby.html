@@ -228,6 +228,13 @@
     }
 
     window.initMap = function () {
+      // Add home link functionality
+      document.getElementById('homeLink').addEventListener('click', function() {
+        
+          window.location.href = 'http://localhost:3000/';
+        
+      });
+
       // Add location selection button
       const locationBtn = document.createElement('button');
       locationBtn.className = 'btn secondary';
@@ -338,7 +345,7 @@
       interestSelect.required = true;
       interestSelect.innerHTML = `
       <option value="" disabled selected>Select your interest</option>
-      <option value="0">Add</option>
+      <option value="0">All</option>
       <option value="1">Food</option>
       <option value="2">Stay/Hotels</option>
       <option value="3">Temples</option>
@@ -366,6 +373,9 @@
         document.getElementById("results").innerHTML = '';
         showToast('Fetching recommendations...', 'info');
 
+        // Initialize PlacesService
+        service = new google.maps.places.PlacesService(map);
+
         // Get local API recommendations first
         const localPlaces = await getNearbyPlaces(currentLocation, category);
         if (localPlaces.length > 0) {
@@ -379,7 +389,7 @@
           const categoryText = interestSelect.options[interestSelect.selectedIndex].text;
           const prompt = `
           I'm in ${currentLocation.lat},${currentLocation.lng}. 
-          Looking for ${categoryText} places.
+          Looking for ${categoryText === 'All' ? 'interesting' : categoryText.toLowerCase()} places.
           Suggest 5 specific places (not generic types) within 5km.
           Return just the names, one per line.
         `;
@@ -400,12 +410,23 @@
               }
             };
 
-            service = new google.maps.places.PlacesService(map);
-            service.findPlaceFromQuery(request, (results, status) => {
-              if (status === google.maps.places.PlacesServiceStatus.OK && results[0]) {
+            try {
+              const results = await new Promise((resolve, reject) => {
+                service.findPlaceFromQuery(request, (results, status) => {
+                  if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    resolve(results);
+                  } else {
+                    reject(status);
+                  }
+                });
+              });
+
+              if (results && results[0]) {
                 displayPlace(results[0], false);
               }
-            });
+            } catch (error) {
+              console.error('Error finding place:', error);
+            }
           }
         } catch (error) {
           console.error('Error getting AI recommendations:', error);
@@ -445,6 +466,7 @@
       color: #1a73e8;
       font-size: 24px;
       margin-bottom: 5px;
+      cursor: pointer;
     }
 
     #pr {
@@ -883,7 +905,7 @@
 
 <body onload="initMap()">
   <div id="controls">
-    <h3>TourSages Localite</h3>
+    <h3 id="homeLink">TourSages Localite</h3>
     <p id="pr">Get suggestions based on your interests and location.</p>
     <form id="recommendForm">
       <div class="location-methods">

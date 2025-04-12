@@ -78,6 +78,13 @@ export default function Header() {
     }
   }
 
+  const openHtmlFile = (filename: string) => {
+    // Open new tab with HTML file
+    window.open(`/${filename}`, '_blank');
+    // Close current tab
+    window.close();
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-[#dadce0] shadow-sm">
       <div className="container mx-auto flex justify-between items-center px-4 py-3">
@@ -94,6 +101,54 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
+          <button
+            onClick={() => openHtmlFile('routing.html')}
+            className="px-6 py-2.5 bg-[#1a73e8] text-white hover:bg-[#1557b0] rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#1a73e8] focus:ring-offset-2 flex items-center gap-2 shadow-md hover:shadow-lg active:shadow-sm"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" 
+              />
+            </svg>
+            <span className="font-medium">Oracle</span>
+          </button>
+
+          <button
+            onClick={() => openHtmlFile('nearby.html')}
+            className="px-6 py-2.5 bg-[#34a853] text-white hover:bg-[#2d904d] rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#34a853] focus:ring-offset-2 flex items-center gap-2 shadow-md hover:shadow-lg active:shadow-sm"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" 
+              />
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" 
+              />
+            </svg>
+            <span className="font-medium">Localite</span>
+          </button>
+          
           {userName && (
             <div className="hidden md:flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center">
