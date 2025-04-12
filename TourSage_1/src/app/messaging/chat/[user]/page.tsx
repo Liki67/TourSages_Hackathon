@@ -253,27 +253,29 @@ export default function ChatPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      <div className="flex items-center justify-center min-h-screen bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1a73e8]"></div>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900 text-white">
+    <div className="flex flex-col h-screen bg-white">
       {/* Header */}
-      <div className="bg-gray-800 shadow-lg py-4 px-6 flex items-center border-b border-gray-700">
+      <div className="bg-white shadow-sm py-4 px-6 flex items-center border-b border-[#dadce0]">
         <div className="relative mr-3">
-          <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-xl font-bold text-white">
+          <div className="w-10 h-10 rounded-full bg-[#e8f0fe] flex items-center justify-center text-xl font-medium text-[#1a73e8]">
             {otherUserName.charAt(0).toUpperCase()}
           </div>
-          <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full ${otherUserStatus === 'online' ? 'bg-green-500' : 'bg-gray-400'} border-2 border-gray-800`}></div>
+          <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full ${
+            otherUserStatus === 'online' ? 'bg-[#34a853]' : 'bg-[#5f6368]'
+          } border-2 border-white`}></div>
         </div>
         <div>
-          <h2 className="font-bold text-lg">{otherUserName}</h2>
-          <p className="text-xs text-gray-400">{otherUserStatus}</p>
+          <h2 className="font-medium text-[#202124] text-lg">{otherUserName}</h2>
+          <p className="text-xs text-[#5f6368]">{otherUserStatus}</p>
         </div>
-        <button className="ml-auto text-gray-400 hover:text-purple-400 transition-colors">
+        <button className="ml-auto text-[#5f6368] hover:text-[#202124] transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
           </svg>
@@ -283,9 +285,9 @@ export default function ChatPage() {
       {/* Messages */}
       <div 
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-gray-900 to-gray-800"
+        className="flex-1 overflow-y-auto p-6 space-y-4 bg-[#f8f9fa]"
         style={{
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%233f3f46' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23dadce0' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
         }}
       >
         {messages.map((msg, idx) => {
@@ -302,26 +304,26 @@ export default function ChatPage() {
             <div key={msg.id}>
               {showDate && msg.timestamp && (
                 <div className="flex justify-center my-4">
-                  <span className="text-xs bg-gray-700 rounded-full px-4 py-1 text-gray-300">
+                  <span className="text-xs bg-[#f1f3f4] rounded-full px-4 py-1 text-[#5f6368]">
                     {msg.timestamp.toDate().toLocaleDateString()}
                   </span>
                 </div>
               )}
               <div className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'} animate-fadeIn`}>
                 {!isCurrentUser && (
-                  <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-white mr-2 mt-1">
+                  <div className="w-8 h-8 rounded-full bg-[#e8f0fe] flex items-center justify-center text-sm font-medium text-[#1a73e8] mr-2 mt-1">
                     {otherUserName.charAt(0).toUpperCase()}
                   </div>
                 )}
                 <div 
-                  className={`max-w-xs md:max-w-md rounded-2xl py-2 px-4 ${
+                  className={`max-w-xs md:max-w-md rounded-lg py-2 px-4 ${
                     isCurrentUser 
-                      ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white rounded-br-none shadow-md' 
-                      : 'bg-gray-700 rounded-bl-none shadow-md border border-gray-600'
+                      ? 'bg-[#1a73e8] text-white rounded-br-none' 
+                      : 'bg-white border border-[#dadce0] rounded-bl-none'
                   }`}
                 >
-                  <div className="text-sm">{msg.message}</div>
-                  <div className={`text-xs mt-1 ${isCurrentUser ? 'text-purple-200' : 'text-gray-400'} text-right`}>
+                  <div className={`text-sm ${!isCurrentUser && 'text-[#202124]'}`}>{msg.message}</div>
+                  <div className={`text-xs mt-1 ${isCurrentUser ? 'text-white/80' : 'text-[#5f6368]'} text-right`}>
                     {formatTime(msg.timestamp)}
                   </div>
                 </div>
@@ -333,14 +335,14 @@ export default function ChatPage() {
         {/* Typing Indicator */}
         {otherUserTyping && (
           <div className="flex items-center space-x-2 animate-pulse">
-            <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-white">
+            <div className="w-8 h-8 rounded-full bg-[#e8f0fe] flex items-center justify-center text-sm font-medium text-[#1a73e8]">
               {otherUserName.charAt(0).toUpperCase()}
             </div>
-            <div className="bg-gray-700 rounded-2xl py-2 px-4 rounded-bl-none">
+            <div className="bg-white border border-[#dadce0] rounded-lg py-2 px-4 rounded-bl-none">
               <div className="flex space-x-1">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                <div className="w-2 h-2 bg-[#5f6368] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-[#5f6368] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                <div className="w-2 h-2 bg-[#5f6368] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
               </div>
             </div>
           </div>
@@ -349,24 +351,24 @@ export default function ChatPage() {
       </div>
 
       {/* Input Area */}
-      <div className="bg-gray-800 border-t border-gray-700 p-4">
-        <div className="flex items-center bg-gray-700 rounded-full p-1 shadow-inner">
+      <div className="bg-white border-t border-[#dadce0] p-4">
+        <div className="flex items-center bg-[#f1f3f4] rounded-full p-1">
           <button 
-            className="p-2 rounded-full text-gray-400 hover:text-purple-400 focus:outline-none transition-colors"
+            className="p-2 rounded-full text-[#5f6368] hover:text-[#202124] focus:outline-none transition-colors"
             onClick={() => setShowEmoji(!showEmoji)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </button>
-          <button className="p-2 rounded-full text-gray-400 hover:text-purple-400 focus:outline-none transition-colors">
+          <button className="p-2 rounded-full text-[#5f6368] hover:text-[#202124] focus:outline-none transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
             </svg>
           </button>
           <textarea
             ref={textareaRef}
-            className="flex-1 bg-transparent border-none focus:ring-0 resize-none mx-2 py-2 h-10 max-h-32 overflow-auto text-white placeholder-gray-400"
+            className="flex-1 bg-transparent border-none focus:ring-0 resize-none mx-2 py-2 h-10 max-h-32 overflow-auto text-[#202124] placeholder-[#5f6368]"
             placeholder="Type a message..."
             value={message}
             onChange={(e) => {
@@ -382,8 +384,8 @@ export default function ChatPage() {
             disabled={!message.trim()}
             className={`rounded-full p-2 focus:outline-none transition-all ${
               message.trim() 
-                ? 'bg-purple-600 hover:bg-purple-500 text-white' 
-                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                ? 'bg-[#1a73e8] hover:bg-[#1557b0] text-white' 
+                : 'bg-[#f1f3f4] text-[#5f6368] cursor-not-allowed'
             }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

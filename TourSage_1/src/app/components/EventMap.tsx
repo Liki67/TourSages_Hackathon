@@ -41,6 +41,7 @@ export default function EventMap({ events, onDistanceChange }: EventMapProps) {
   const [maxDistance, setMaxDistance] = useState<number | null>(null); // Changed to allow null for "show all"
   const [customDistance, setCustomDistance] = useState<{ km: number; m: number }>({ km: 0, m: 0 });
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+  const [isCustomDistance, setIsCustomDistance] = useState(false);
 
   // Function to calculate distance in kilometers
   const calculateDistanceInKm = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
@@ -499,28 +500,34 @@ export default function EventMap({ events, onDistanceChange }: EventMapProps) {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Distance Filter */}
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-4">
-          <label className="text-white">
+          <label className="text-[#202124]">
             Show events within:
             <select 
-              value={maxDistance || ''}
+              value={maxDistance || 'all'}
               onChange={(e) => {
                 const value = e.target.value;
                 if (value === 'custom') {
+                  setIsCustomDistance(true);
+                  setMaxDistance(null);
+                  onDistanceChange?.(null);
+                } else if (value === 'all') {
+                  setIsCustomDistance(false);
                   setMaxDistance(null);
                   onDistanceChange?.(null);
                 } else {
-                  const distance = value ? Number(value) : null;
+                  setIsCustomDistance(false);
+                  const distance = Number(value);
                   setMaxDistance(distance);
                   onDistanceChange?.(distance);
                 }
               }}
-              className="ml-2 bg-gray-800 text-white rounded px-2 py-1"
+              className="ml-2 bg-white border border-[#dadce0] text-[#202124] rounded px-3 py-2 focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-colors"
             >
-              <option value="">All Events</option>
+              <option value="all">All Events</option>
               <option value={10}>10 km</option>
               <option value={25}>25 km</option>
               <option value={50}>50 km</option>
@@ -531,25 +538,25 @@ export default function EventMap({ events, onDistanceChange }: EventMapProps) {
             </select>
           </label>
           {userLocation && (
-            <span className="text-gray-400 text-sm">
+            <span className="text-[#5f6368] text-sm">
               {filteredEvents.length} events found {maxDistance ? `within ${maxDistance}km` : 'in total'}
             </span>
           )}
         </div>
 
-        {/* Custom Distance Input */}
-        {maxDistance === null && (
-          <div className="flex items-center gap-4">
+        {/* Custom Distance Input - Now controlled by isCustomDistance */}
+        {isCustomDistance && (
+          <div className="flex items-center gap-4 animate-slideDown">
             <div className="flex items-center gap-2">
               <input
                 type="number"
                 value={customDistance.km}
                 onChange={(e) => handleCustomDistanceChange('km', e.target.value)}
                 placeholder="Kilometers"
-                className="bg-gray-800 text-white rounded px-2 py-1 w-24"
+                className="bg-white text-[#202124] border border-[#dadce0] rounded px-3 py-2 w-24 focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-colors"
                 min="0"
               />
-              <span className="text-white">km</span>
+              <span className="text-[#5f6368]">km</span>
             </div>
             <div className="flex items-center gap-2">
               <input
@@ -557,11 +564,11 @@ export default function EventMap({ events, onDistanceChange }: EventMapProps) {
                 value={customDistance.m}
                 onChange={(e) => handleCustomDistanceChange('m', e.target.value)}
                 placeholder="Meters"
-                className="bg-gray-800 text-white rounded px-2 py-1 w-24"
+                className="bg-white text-[#202124] border border-[#dadce0] rounded px-3 py-2 w-24 focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-colors"
                 min="0"
                 max="999"
               />
-              <span className="text-white">m</span>
+              <span className="text-[#5f6368]">m</span>
             </div>
             <button
               onClick={() => {
@@ -569,17 +576,18 @@ export default function EventMap({ events, onDistanceChange }: EventMapProps) {
                 setMaxDistance(totalDistance);
                 onDistanceChange?.(totalDistance);
               }}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-1 rounded"
+              className="bg-[#1a73e8] hover:bg-[#1557b0] text-white px-6 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a73e8] focus:ring-offset-2 disabled:opacity-50 transition-colors text-sm font-medium"
             >
               Apply
             </button>
             <button
               onClick={() => {
+                setIsCustomDistance(false);
                 setMaxDistance(null);
                 onDistanceChange?.(null);
                 setCustomDistance({ km: 0, m: 0 });
               }}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1 rounded"
+              className="border border-[#dadce0] text-[#202124] hover:bg-[#f1f3f4] px-6 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a73e8] focus:ring-offset-2 disabled:opacity-50 transition-colors text-sm font-medium"
             >
               Show All
             </button>
@@ -588,9 +596,9 @@ export default function EventMap({ events, onDistanceChange }: EventMapProps) {
       </div>
 
       {/* Map Section */}
-      <div className="w-full h-[400px] rounded-lg overflow-hidden shadow-lg">
+      <div className="w-full h-[400px] rounded-lg overflow-hidden shadow-sm border border-[#dadce0]">
         <div ref={mapRef} className="w-full h-full" />
       </div>
     </div>
   );
-} 
+}

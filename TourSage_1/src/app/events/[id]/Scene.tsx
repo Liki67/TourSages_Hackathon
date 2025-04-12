@@ -39,7 +39,7 @@ function FloatingTitle({ title }: { title: string }) {
           bevelSegments={5}
         >
           {title}
-          <meshStandardMaterial color="#9333ea" metalness={0.5} roughness={0.2} />
+          <meshStandardMaterial color="#1a73e8" metalness={0.3} roughness={0.4} />
         </Text3D>
       </Center>
     </Float>
@@ -65,7 +65,7 @@ function CategoryTags({ categories }: { categories: string[] }) {
               bevelSegments={5}
             >
               {category}
-              <meshStandardMaterial color="#a855f7" metalness={0.3} roughness={0.4} />
+              <meshStandardMaterial color="#4285f4" metalness={0.2} roughness={0.6} />
             </Text3D>
           </Center>
         </Float>
@@ -78,14 +78,23 @@ export default function Scene({ event }: { event: Event }) {
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 50 }}
-      style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}
+      style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100%', 
+        height: '100%', 
+        zIndex: -1,
+        background: '#f8f9fa' 
+      }}
     >
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
+      <color attach="background" args={['#f8f9fa']} />
+      <ambientLight intensity={0.7} />
+      <pointLight position={[10, 10, 10]} intensity={1.2} />
       <FloatingTitle title={event.eventName} />
       {event.categories && <CategoryTags categories={event.categories} />}
       <OrbitControls enableZoom={false} />
       <Environment preset="city" />
     </Canvas>
   );
-} 
+}

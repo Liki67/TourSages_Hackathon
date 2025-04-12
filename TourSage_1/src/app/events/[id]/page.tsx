@@ -136,28 +136,28 @@ export default function EventPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-white">
       <Header />
       
-      <div className="fixed inset-0 bg-gray-900 z-0 opacity-50" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+      <div className="fixed inset-0 bg-[#f8f9fa] z-0 opacity-50" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23dadce0' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
       }} />
 
       <main className="container mx-auto px-4 py-8 z-10 relative">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+          <div className="bg-white rounded-lg shadow-sm border border-[#dadce0] p-6 mb-8">
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-3xl font-bold text-white">{event?.eventName}</h1>
+              <h1 className="text-3xl font-normal text-[#202124]">{event?.eventName}</h1>
               <button
                 onClick={() => router.push('/')}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white"
+                className="px-4 py-2 border border-[#dadce0] hover:bg-[#f1f3f4] rounded-md text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#1a73e8] focus:ring-offset-2 transition-colors"
               >
                 Back
               </button>
             </div>
 
             <div className="space-y-6">
-              <div className="flex items-center text-gray-400 text-sm">
+              <div className="flex items-center text-[#5f6368] text-sm">
                 <span>Created by: {event?.creatorName || event?.createdBy?.split('@')[0] || 'User'}</span>
                 <span className="mx-2">•</span>
                 <span>From: {event ? new Date(event.startDate).toLocaleDateString() : ''}</span>
@@ -171,7 +171,7 @@ export default function EventPage() {
                   {event.categories.map((category, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-purple-600/20 text-purple-400 text-sm rounded-full"
+                      className="px-3 py-1 bg-[#e8f0fe] text-[#1a73e8] text-sm rounded-full"
                     >
                       {category}
                     </span>
@@ -180,15 +180,15 @@ export default function EventPage() {
               )}
 
               {event.textMessage && (
-                <div className="bg-gray-700 rounded-lg p-4">
-                  <h2 className="text-xl font-semibold mb-2 text-white">Description</h2>
-                  <p className="text-gray-300 whitespace-pre-wrap">{event.textMessage}</p>
+                <div className="bg-white rounded-lg p-4 border border-[#dadce0]">
+                  <h2 className="text-xl font-normal mb-2 text-[#202124]">Description</h2>
+                  <p className="text-[#5f6368] whitespace-pre-wrap">{event.textMessage}</p>
                 </div>
               )}
 
               {event.voiceMessage && (
-                <div className="bg-gray-700 rounded-lg p-4">
-                  <h2 className="text-xl font-semibold mb-2 text-white">Voice Message</h2>
+                <div className="bg-white rounded-lg p-4 border border-[#dadce0]">
+                  <h2 className="text-xl font-normal mb-2 text-[#202124]">Voice Message</h2>
                   <audio controls className="w-full">
                     <source src={event.voiceMessage} type="audio/wav" />
                     Your browser does not support the audio element.
@@ -197,16 +197,16 @@ export default function EventPage() {
               )}
 
               {event.images && event.images.length > 0 && (
-                <div className="bg-gray-700 rounded-lg p-4">
-                  <h2 className="text-xl font-semibold mb-4 text-white">Images</h2>
+                <div className="bg-white rounded-lg p-4 border border-[#dadce0]">
+                  <h2 className="text-xl font-normal mb-4 text-[#202124]">Images</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {event.images.map((imageUrl, index) => (
-                      <div key={index} className="relative aspect-square">
+                      <div key={index} className="relative aspect-square rounded-lg overflow-hidden border border-[#dadce0]">
                         <Image
                           src={imageUrl}
                           alt={`Event image ${index + 1}`}
                           fill
-                          className="object-cover rounded-lg"
+                          className="object-cover"
                         />
                       </div>
                     ))}
@@ -214,18 +214,18 @@ export default function EventPage() {
                 </div>
               )}
 
-              <div className="bg-gray-700 rounded-lg p-4">
-                <h2 className="text-xl font-semibold mb-2 text-white">Location</h2>
+              <div className="bg-white rounded-lg p-4 border border-[#dadce0]">
+                <h2 className="text-xl font-normal mb-2 text-[#202124]">Location</h2>
                 {userLocation && event?.latitude && event?.longitude ? (
-                  <p className="text-gray-300 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <p className="text-[#5f6368] flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#1a73e8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     {calculateDistance(userLocation.lat, userLocation.lng, event.latitude, event.longitude)} from you
                   </p>
                 ) : (
-                  <p className="text-gray-300">Location information available</p>
+                  <p className="text-[#5f6368]">Location information available</p>
                 )}
               </div>
             </div>
@@ -234,4 +234,4 @@ export default function EventPage() {
       </main>
     </div>
   );
-} 
+}

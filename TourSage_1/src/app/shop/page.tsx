@@ -201,35 +201,52 @@ export default function ShopPage() {
     setMap(map);
   };
 
+  if (!isGoogleMapsLoaded) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1a73e8]"></div>
+          <p className="mt-4 text-[#5f6368]">Loading map...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-[#f8f9fa]">
       <Header />
       
-      {isGoogleMapsLoaded ? (
-        <div className="flex h-screen">
-          {/* Left panel - Shop list and Image Gallery */}
-          <div className="w-1/3 p-6 bg-white/95 backdrop-blur-md shadow-xl overflow-y-auto">
-            <h2 className="text-2xl font-bold mb-6">✨ Places in Bangalore ✨</h2>
+      <div className="flex h-screen">
+        {/* Left panel - Shop list and Image Gallery */}
+        <div className="w-1/3 bg-white border-r border-[#dadce0] overflow-y-auto">
+          <div className="p-6">
+            <h2 className="text-[#202124] text-2xl font-normal mb-6 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#1a73e8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Places in Bangalore
+            </h2>
             
             {showImageGallery && selectedShop ? (
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-xl font-semibold">{selectedShop.place_name}</h3>
+                  <h3 className="text-xl font-normal text-[#202124]">{selectedShop.place_name}</h3>
                   <button 
                     onClick={() => setShowImageGallery(false)}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="px-4 py-2 text-[#1a73e8] hover:bg-[#f1f3f4] rounded-md transition-colors"
                   >
                     Back to List
                   </button>
                 </div>
                 {loadingImages ? (
                   <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1a73e8]"></div>
                   </div>
                 ) : selectedShop.images && selectedShop.images.length > 0 ? (
                   <div className="grid grid-cols-2 gap-4">
                     {selectedShop.images.map((image, index) => (
-                      <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
+                      <div key={index} className="relative aspect-square rounded-lg overflow-hidden border border-[#dadce0]">
                         <Image
                           src={image}
                           alt={`${selectedShop.place_name} - Image ${index + 1}`}
@@ -240,7 +257,7 @@ export default function ShopPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center text-gray-500 py-8">
+                  <div className="text-center text-[#5f6368] py-8">
                     No images available for this location
                   </div>
                 )}
@@ -248,32 +265,32 @@ export default function ShopPage() {
             ) : (
               <>
                 {/* Category Legend */}
-                <div className="flex items-center space-x-4 mb-6">
+                <div className="flex items-center space-x-4 mb-6 bg-[#f1f3f4] p-3 rounded-lg">
                   <div className="flex items-center">
                     <div className="w-6 h-6 mr-2" dangerouslySetInnerHTML={{ __html: `
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FF6B6B" width="24" height="24">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1a73e8" width="24" height="24">
                         <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/>
                       </svg>
                     ` }} />
-                    <span className="text-sm">Food</span>
+                    <span className="text-sm text-[#5f6368]">Food</span>
                   </div>
                   <div className="flex items-center">
                     <div className="w-6 h-6 mr-2" dangerouslySetInnerHTML={{ __html: `
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4ECDC4" width="24" height="24">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#34a853" width="24" height="24">
                         <path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.5L18 8v8l-6 3.75L6 16V8l6-3.5z"/>
                         <path d="M12 7.5l-4 2.5v5l4 2.5 4-2.5v-5l-4-2.5z"/>
                       </svg>
                     ` }} />
-                    <span className="text-sm">Stay</span>
+                    <span className="text-sm text-[#5f6368]">Stay</span>
                   </div>
                   <div className="flex items-center">
                     <div className="w-6 h-6 mr-2" dangerouslySetInnerHTML={{ __html: `
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD166" width="24" height="24">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fbbc04" width="24" height="24">
                         <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm6 9.09c0 4-2.55 7.7-6 8.83-3.45-1.13-6-4.82-6-8.83V6.31l6-2.12 6 2.12v4.78z"/>
                         <path d="M12 7.5c-1.1 0-2 .9-2 2v2h4v-2c0-1.1-.9-2-2-2z"/>
                       </svg>
                     ` }} />
-                    <span className="text-sm">Temple</span>
+                    <span className="text-sm text-[#5f6368]">Temple</span>
                   </div>
                 </div>
                 
@@ -281,13 +298,13 @@ export default function ShopPage() {
                   {shops.map((shop, index) => (
                     <div
                       key={index}
-                      className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow"
+                      className="bg-white rounded-lg border border-[#dadce0] p-4 cursor-pointer hover:bg-[#f1f3f4] transition-colors"
                       onClick={() => handleMarkerClick(shop)}
                     >
-                      <h3 className="font-semibold text-lg">{shop.place_name}</h3>
-                      <p className="text-sm text-gray-600 mt-1">{shop.description}</p>
+                      <h3 className="font-normal text-[#202124]">{shop.place_name}</h3>
+                      <p className="text-sm text-[#5f6368] mt-1">{shop.description}</p>
                       <div className="flex items-center mt-2">
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-[#5f6368]">
                           {shop.category === 1 ? 'Food' : 
                            shop.category === 2 ? 'Stay' : 'Temple'}
                         </span>
@@ -298,22 +315,40 @@ export default function ShopPage() {
               </>
             )}
           </div>
+        </div>
 
-          {/* Right panel - Map */}
-          <div className="flex-1">
-            <LoadScript 
-              googleMapsApiKey="AIzaSyDGLM_J5yX62bYgvQiHaDLRlyKRwbNe7RQ"
-              libraries={libraries}
-              onLoad={() => setIsLoaded(true)}
-            >
-              <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                center={userLocation || center}
-                zoom={12}
-                onLoad={onMapLoad}
-                options={{
-                  styles: [
-                    {
+        {/* Right panel - Map */}
+        <div className="flex-1">
+          <LoadScript 
+            googleMapsApiKey="AIzaSyDGLM_J5yX62bYgvQiHaDLRlyKRwbNe7RQ"
+            libraries={libraries}
+            onLoad={() => setIsLoaded(true)}
+          >
+            <GoogleMap
+              mapContainerStyle={mapContainerStyle}
+              center={userLocation || center}
+              zoom={12}
+              onLoad={onMapLoad}
+              options={{
+                styles: [
+                  {
+                    "elementType": "geometry",
+                    "stylers": [{ "color": "#f8f9fa" }]
+                  },
+                  {
+                    "elementType": "labels.text.fill",
+                    "stylers": [{ "color": "#5f6368" }]
+                  },
+                  {
+                    "elementType": "labels.text.stroke",
+                    "stylers": [{ "color": "#ffffff" }]
+                  },
+                  {
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [{ "color": "#e8f0fe" }]
+                  },
+                  {
                       "featureType": "poi",
                       "elementType": "labels.icon",
                       "stylers": [{ "visibility": "off" }]
@@ -415,76 +450,68 @@ export default function ShopPage() {
                       "elementType": "labels.text.stroke",
                       "stylers": [{ "color": "#17263c" }]
                     }
-                  ],
-                  disableDefaultUI: true,
-                  zoomControl: true,
-                  mapTypeControl: true,
-                  mapTypeControlOptions: {
-                    position: google.maps.ControlPosition.TOP_RIGHT,
-                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-                    mapTypeIds: [
-                      google.maps.MapTypeId.ROADMAP,
-                      google.maps.MapTypeId.SATELLITE
-                    ]
-                  },
-                  streetViewControl: true,
-                  fullscreenControl: false
-                }}
-              >
-                {/* User location marker */}
-                {userLocation && (
-                  <Marker
-                    position={userLocation}
-                    icon={{
-                      path: google.maps.SymbolPath.CIRCLE,
-                      scale: 10,
-                      fillColor: '#4285F4',
-                      fillOpacity: 1,
-                      strokeColor: '#ffffff',
-                      strokeWeight: 2
-                    }}
-                  />
-                )}
+                ],
+                disableDefaultUI: true,
+                zoomControl: true,
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                  position: google.maps.ControlPosition.TOP_RIGHT,
+                  style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                  mapTypeIds: [
+                    google.maps.MapTypeId.ROADMAP,
+                    google.maps.MapTypeId.SATELLITE
+                  ]
+                },
+                streetViewControl: true,
+                fullscreenControl: false
+              }}
+            >
+              {/* User location marker */}
+              {userLocation && (
+                <Marker
+                  position={userLocation}
+                  icon={{
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 10,
+                    fillColor: '#4285F4',
+                    fillOpacity: 1,
+                    strokeColor: '#ffffff',
+                    strokeWeight: 2
+                  }}
+                />
+              )}
 
-                {/* Shop markers */}
-                {isLoaded && shops.map((shop, index) => (
-                  <Marker
-                    key={index}
-                    position={{ lat: shop.lat, lng: shop.long }}
-                    onClick={() => handleMarkerClick(shop)}
-                    icon={getCategoryIcon(shop.category)}
-                    animation={selectedShop?.place_name === shop.place_name ? google.maps.Animation.BOUNCE : undefined}
-                  />
-                ))}
+              {/* Shop markers */}
+              {isLoaded && shops.map((shop, index) => (
+                <Marker
+                  key={index}
+                  position={{ lat: shop.lat, lng: shop.long }}
+                  onClick={() => handleMarkerClick(shop)}
+                  icon={getCategoryIcon(shop.category)}
+                  animation={selectedShop?.place_name === shop.place_name ? google.maps.Animation.BOUNCE : undefined}
+                />
+              ))}
 
-                {/* Info window for selected shop */}
-                {selectedShop && (
-                  <InfoWindow
-                    position={{ lat: selectedShop.lat, lng: selectedShop.long }}
-                    onCloseClick={() => setSelectedShop(null)}
-                  >
-                    <div className="p-2">
-                      <h3 className="font-semibold">{selectedShop.place_name}</h3>
-                      <p className="text-sm">{selectedShop.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {selectedShop.category === 1 ? 'Food' : 
-                         selectedShop.category === 2 ? 'Stay' : 'Temple'}
-                      </p>
-                    </div>
-                  </InfoWindow>
-                )}
-              </GoogleMap>
-            </LoadScript>
-          </div>
+              {/* Info window for selected shop */}
+              {selectedShop && (
+                <InfoWindow
+                  position={{ lat: selectedShop.lat, lng: selectedShop.long }}
+                  onCloseClick={() => setSelectedShop(null)}
+                >
+                  <div className="p-2">
+                    <h3 className="font-semibold">{selectedShop.place_name}</h3>
+                    <p className="text-sm">{selectedShop.description}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {selectedShop.category === 1 ? 'Food' : 
+                       selectedShop.category === 2 ? 'Stay' : 'Temple'}
+                    </p>
+                  </div>
+                </InfoWindow>
+              )}
+            </GoogleMap>
+          </LoadScript>
         </div>
-      ) : (
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="mt-4 text-gray-300">Loading map...</p>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

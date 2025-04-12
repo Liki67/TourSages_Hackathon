@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
-import { db, storage } from '../firebase/config';
-import { collection, addDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../../firebase/config';
+import { collection, addDoc } from '../../firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from '../../firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 
 interface EventFormProps {
@@ -74,34 +73,34 @@ export default function EventForm({ onSuccess }: EventFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center mb-6">Create New Event</h2>
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-sm">
+      <h2 className="text-[#202124] text-2xl font-normal text-center mb-8">Create New Event</h2>
       
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <div className="bg-[#fce8e6] border border-[#d93025] text-[#d93025] px-4 py-3 rounded">
           {error}
         </div>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Title</label>
+          <label className="block text-sm text-[#5f6368] mb-1">Title</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block w-full px-3 py-2 rounded-md border border-[#dadce0] focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Category</label>
+          <label className="block text-sm text-[#5f6368] mb-1">Category</label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block w-full px-3 py-2 rounded-md border border-[#dadce0] focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-colors"
           >
             <option value="">Select a category</option>
             {eventCategories.map((cat) => (
@@ -113,59 +112,59 @@ export default function EventForm({ onSuccess }: EventFormProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Description</label>
+          <label className="block text-sm text-[#5f6368] mb-1">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
             rows={4}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block w-full px-3 py-2 rounded-md border border-[#dadce0] focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Date</label>
+          <label className="block text-sm text-[#5f6368] mb-1">Date</label>
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block w-full px-3 py-2 rounded-md border border-[#dadce0] focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Location</label>
+          <label className="block text-sm text-[#5f6368] mb-1">Location</label>
           <input
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block w-full px-3 py-2 rounded-md border border-[#dadce0] focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Images</label>
+          <label className="block text-sm text-[#5f6368] mb-1">Images</label>
           <input
             type="file"
             onChange={handleImageChange}
             multiple
             accept="image/*"
-            className="mt-1 block w-full"
+            className="mt-1 block w-full px-3 py-2 text-[#5f6368]"
           />
         </div>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end mt-8">
         <button
           type="submit"
           disabled={uploading}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          className="bg-[#1a73e8] text-white px-6 py-2 rounded-md hover:bg-[#1557b0] focus:outline-none focus:ring-2 focus:ring-[#1a73e8] focus:ring-offset-2 disabled:opacity-50 transition-colors text-sm font-medium"
         >
           {uploading ? 'Creating...' : 'Create Event'}
         </button>
       </div>
     </form>
   );
-} 
+}

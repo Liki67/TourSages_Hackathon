@@ -1,8 +1,41 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Google Material Theme Colors - Light */
+  --color-primary: #1a73e8;
+  --color-primary-hover: #1557b0;
+  --color-secondary: #188038;
+  --color-error: #d93025;
+  --color-success: #34a853;
+  --color-warning: #fbbc04;
+  
+  /* Text Colors */
+  --color-text-primary: #202124;
+  --color-text-secondary: #5f6368;
+  --color-text-disabled: #80868b;
+  
+  /* Background Colors */
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f8f9fa;
+  --color-background-hover: #f1f3f4;
+  
+  /* Border Colors */
+  --color-border: #dadce0;
+  --color-border-hover: #bdc1c6;
+  
+  /* Surface Colors */
+  --color-surface: #ffffff;
+  --color-surface-variant: #f1f3f4;
+  
+  /* Component Colors */
+  --color-button-text: #ffffff;
+  --color-input-background: #ffffff;
+  --color-input-border: #dadce0;
+  --color-input-focus: #1a73e8;
 }
 
 @theme inline {
@@ -16,11 +49,73 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* Google Material Theme Colors - Dark */
+    --color-primary: #8ab4f8;
+    --color-primary-hover: #aecbfa;
+    --color-secondary: #81c995;
+    --color-error: #f28b82;
+    --color-success: #81c995;
+    --color-warning: #fdd663;
+    
+    /* Text Colors */
+    --color-text-primary: #e8eaed;
+    --color-text-secondary: #9aa0a6;
+    --color-text-disabled: #5f6368;
+    
+    /* Background Colors */
+    --color-background-primary: #202124;
+    --color-background-secondary: #292a2d;
+    --color-background-hover: #28292c;
+    
+    /* Border Colors */
+    --color-border: #3c4043;
+    --color-border-hover: #5f6368;
+    
+    /* Surface Colors */
+    --color-surface: #202124;
+    --color-surface-variant: #28292c;
+    
+    /* Component Colors */
+    --color-button-text: #202124;
+    --color-input-background: #202124;
+    --color-input-border: #5f6368;
+    --color-input-focus: #8ab4f8;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  font-family: 'Google Sans', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility Classes */
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.bg-hover:hover {
+  background-color: var(--color-background-hover);
+}
+
+.border-color {
+  border-color: var(--color-border);
+}
+
+/* Focus States */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Transitions */
+.transition-colors {
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
 }
