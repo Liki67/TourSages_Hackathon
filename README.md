@@ -1,45 +1,62 @@
-# Welcome TourSages 👋
+ 🌍 Toursages
 
-Hello Team **TourSages** from **Vemana institute of technology**,
+**Toursages** is an innovative travel web app that connects travelers with unique destinations and vibrant local events through a sleek, user-friendly interface.
 
-Welcome to the Hackathon! We're excited to have you on board and can't wait to see what you'll build under the theme **"Boosting Culture and Tourism Through Tech"** 
-
-## Team Details
-
-- **Team Number:** 119  
-- **Team Name:** TourSages
-- **Team Leader:** N S Paranjay Reddy  
-- **Email:** paranjayreddy133@gmail.com  
-- **Phone:** 8310567015  
-
-### Team Members:
-- Deelaksha K T 
-- Meesam Hyder 
-- Likith S 
-
-## Problem Statement
-
-> **An interactive tourism webpage that helps users discover the closest festivals, plan culture-rich tr...**
+🏆 **Achievements:**
+- 🥈 **1st Runner-Up** among 250+ teams in a national-level competition
+- 🧠 Awarded for **Novelty** and **Best UI**
 
 ---
 
-### Let's Get Started 
+ 🚀 Features
 
-This repository has been set up for your hackathon project. Use it to manage your code, collaborate, and share your progress.
+- 🗺️ **Custom Travel Dataset**: Rich, hand-curated information on 100+ destinations
+- 🔍 **Smart Filtering**: Search places based on mood, tags, or region
+- 📸 **Visual Experience**: Interactive gallery with high-quality images
+- 📍 **Map-Based Exploration**:
+  - View locations and events on an interactive map
+  - Filter results by **radius** (e.g., 5 km, 10 km) from your location
+- 📅 **Local Event Listings**:
+  - Locals can post upcoming events in their area
+  - Events are geotagged and visible to nearby users
+- 💬 **User Reviews & Ratings**: Build trust through community feedback
+- 📱 **Responsive UI**: Optimized for mobile and desktop
 
-**Important Guidelines - Please Read Carefully**
-
-- Do **not** make any commits **before the allotted start date and time**. Early commits may result in getting caught.
-- Commit your work **regularly** to showcase your progress throughout the hackathon.
-
-- Maintain **professionalism and integrity** at all times. Any form of plagiarism or rule-breaking will lead to strict action.
-
-Let's keep it fair, fun, and impactful! 
 ---
 
-**Good luck, Team TourSages! Happy coding!**
+## 🛠️ Tech Stack
 
-If you need any support during the hackathon, don't hesitate to reach out to the co-ordinators.
+- **Frontend**: React.js, Tailwind CSS
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Maps & Geo**: Leaflet.js or Google Maps API
+- **Authentication**: JWT
+- **Media Hosting**: Cloudinary
 
-Cheers,  
-_Advaya Hackathon Team_
+---
+
+## 📊 Custom Dataset
+
+One of the core components of Toursages is its **custom-built travel dataset**, which includes:
+
+- Unique destination entries with tags like "hidden gem", "adventure", etc.
+- Geo-coordinates for mapping and nearby search
+- Community-submitted entries and event data
+
+---
+
+## 🧪 Demo
+
+[🚀 Live Demo](#) | [📽️ Video Walkthrough](#)
+
+*(Add links if hosted on platforms like Vercel, Netlify, or YouTube)*
+
+---
+
+## 📁 Installation
+
+```bash
+git clone https://github.com/yourusername/toursages.git
+cd toursages
+npm install
+npm run dev
